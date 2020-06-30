@@ -6,6 +6,31 @@ import TextField from "@material-ui/core/TextField";
 import { green } from "@material-ui/core/colors";
 import Icon from "@material-ui/core/Icon";
 import DeleteIcon from "@material-ui/icons/Delete";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import FolderIcon from "@material-ui/icons/Folder";
+
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import "./Display.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +85,6 @@ const Display = () => {
             variant="contained"
             color="secondary"
             className={classes.add}
-            startIcon={<DeleteIcon />}
             onClick={handleAdd}
           >
             ADD
@@ -68,9 +92,18 @@ const Display = () => {
           {console.log(task)}
           {/* {console.log(tasks)} */}
           <div>
-            {tasks.map((ele, index) => (
-              <li key={index}>{ele}</li>
-            ))}
+            <List>
+              {tasks.map((ele, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={ele} />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
           </div>
         </Paper>
       </div>
