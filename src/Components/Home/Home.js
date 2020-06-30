@@ -30,6 +30,13 @@ import AddCircleSharpIcon from "@material-ui/icons/AddCircleSharp";
 import Subtask from "../Subtask/Subtask";
 import "./Home.css";
 import Box from "@material-ui/core/Box";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+// import { MuiAlert } from "@material-ui/lab";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   paper: {
-    width: theme.spacing(60),
+    width: theme.spacing(71),
     marginTop: 20,
 
     background: "#EBFF57",
@@ -48,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     transform: "translate(-50%, -50%)",
   },
   input: {
-    width: 300,
+    width: 312,
     marginTop: 20,
     marginLeft: 30,
   },
@@ -64,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
   check: {
     marginTop: 30,
+    marginLeft: 10,
   },
 }));
 
@@ -72,6 +80,8 @@ const Home = () => {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [checked, setChecked] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
   const handleTask = (e) => {
     setTask(e.target.value);
   };
@@ -79,7 +89,15 @@ const Home = () => {
   const handleAdd = () => {
     const dict = { taskValue: task, checkValue: checked };
     tasks.push(dict);
+    setOpenSnackbar(true);
     setTask("");
+  };
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
   };
 
   const handleCheck = (e) => {
@@ -111,11 +129,16 @@ const Home = () => {
             ADD
           </Button>
 
-          <Checkbox
-            checked={checked}
-            onChange={handleCheck}
-            inputProps={{ "aria-label": "primary checkbox" }}
+          <FormControlLabel
             className={classes.check}
+            control={
+              <Checkbox
+                checked={checked}
+                onChange={handleCheck}
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
+            }
+            label="SubTasks"
           />
 
           <div>
@@ -131,6 +154,15 @@ const Home = () => {
             </List>
           </div>
         </Paper>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert onClose={handleCloseSnackbar} severity="success">
+            A New Task is Added!
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

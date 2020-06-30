@@ -54,8 +54,9 @@ const useStyles = makeStyles((theme) => ({
   noExpansionItem: {
     marginLeft: 50,
   },
+
   check: {
-    marginLeft: 7,
+    marginLeft: 6.5,
     marginTop: 10,
   },
 }));
@@ -95,6 +96,7 @@ const Subtask = (props) => {
               id="additional-actions1-header"
             >
               <FormControlLabel
+                className={classes.expansionCheckbox}
                 aria-label="Acknowledge"
                 onClick={(event) => event.stopPropagation()}
                 onFocus={(event) => event.stopPropagation()}
