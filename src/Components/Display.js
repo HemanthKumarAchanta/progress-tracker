@@ -10,26 +10,23 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
+
 import IconButton from "@material-ui/core/IconButton";
-import FormGroup from "@material-ui/core/FormGroup";
+
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
+
 import Typography from "@material-ui/core/Typography";
-import FolderIcon from "@material-ui/icons/Folder";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Typography from "@material-ui/core/Typography";
+
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import AddCircleSharpIcon from "@material-ui/icons/AddCircleSharp";
 
 import "./Display.css";
 
@@ -40,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     width: theme.spacing(55),
-    height: theme.spacing(75),
+    // height: theme.spacing(75),
+    marginTop: 20,
+
     background: "#EBFF57",
     margin: theme.spacing(2),
     position: "absolute",
@@ -53,13 +52,33 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     marginLeft: 30,
   },
-  add: { marginTop: 30, marginLeft: 10 },
+  input2: {
+    width: 300,
+    marginLeft: 30,
+  },
+  add: {
+    marginTop: 30,
+    marginLeft: 10,
+    background: green[400],
+    "&:hover": {
+      backgroundColor: green[500],
+    },
+    subAdd: {
+      marginTop: 30,
+      marginLeft: 10,
+    },
+  },
+  add2: {
+    radius: 50,
+  },
 }));
 
 const Display = () => {
   const classes = useStyles();
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [subTask, setSubTask] = useState("");
+  const [subTasks, setSubTasks] = useState([]);
 
   const handleTask = (e) => {
     setTask(e.target.value);
@@ -68,6 +87,14 @@ const Display = () => {
   const handleAdd = () => {
     tasks.push(task);
     setTask("");
+  };
+  const handleSubTask = (e) => {
+    setSubTask(e.target.value);
+  };
+
+  const handleSubAdd = () => {
+    subTasks.push(subTask);
+    setSubTask("");
   };
 
   return (
@@ -89,18 +116,49 @@ const Display = () => {
           >
             ADD
           </Button>
-          {console.log(task)}
-          {/* {console.log(tasks)} */}
+
           <div>
             <List>
               {tasks.map((ele, index) => (
                 <ListItem key={index}>
-                  <ListItemText primary={ele} />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
+                  <ExpansionPanel>
+                    <ExpansionPanelSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-label="Expand"
+                      aria-controls="additional-actions1-content"
+                      id="additional-actions1-header"
+                    >
+                      <FormControlLabel
+                        aria-label="Acknowledge"
+                        onClick={(event) => event.stopPropagation()}
+                        onFocus={(event) => event.stopPropagation()}
+                        control={<Checkbox />}
+                        label={ele}
+                      />
+                    </ExpansionPanelSummary>
+                    <TextField
+                      id="standard-basic"
+                      label="Enter the Sub Task"
+                      size="small"
+                      className={classes.input2}
+                      onChange={handleSubTask}
+                    />
+
+                    <IconButton color="secondary" aria-label="add an alarm">
+                      <AddCircleSharpIcon
+                        fontSize="large"
+                        onClick={handleSubAdd}
+                      />
                     </IconButton>
-                  </ListItemSecondaryAction>
+
+                    <ExpansionPanelDetails>
+                      <Typography color="textSecondary">
+                        {subTasks.map((ele, index) => (
+                          <li key={index}>{ele}</li>
+                        ))}
+                      </Typography>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
                 </ListItem>
               ))}
             </List>
