@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { green } from "@material-ui/core/colors";
 import Icon from "@material-ui/core/Icon";
+import DeleteIcon from "@material-ui/icons/Delete";
 import "./Display.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Display = () => {
   const classes = useStyles();
+  const [task, setTask] = useState("");
+  const [tasks, setTasks] = useState([]);
+
+  const handleTask = (e) => {
+    setTask(e.target.value);
+  };
+
+  const handleAdd = () => {
+    tasks.push(task);
+    setTask("");
+  };
+
   return (
     <div className="display">
       <div className={classes.root}>
@@ -41,10 +54,24 @@ const Display = () => {
             label="Enter the Task"
             size="small"
             className={classes.input}
+            onChange={handleTask}
           />
-          <Button variant="contained" color="secondary" className={classes.add}>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.add}
+            startIcon={<DeleteIcon />}
+            onClick={handleAdd}
+          >
             ADD
           </Button>
+          {console.log(task)}
+          {/* {console.log(tasks)} */}
+          <div>
+            {tasks.map((ele, index) => (
+              <li key={index}>{ele}</li>
+            ))}
+          </div>
         </Paper>
       </div>
     </div>
