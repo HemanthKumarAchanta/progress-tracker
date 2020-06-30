@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import "./App.css";
 
 import Display from "./Components/Display";
-// import Test from "./Components/test";
+import Home from "./Components/Home/Home";
 
 const App = () => {
   return (
     <div>
-      <Display />
+      <Home />
     </div>
   );
 };
