@@ -77,7 +77,8 @@ const Home = () => {
   };
 
   const handleAdd = () => {
-    tasks.push(task);
+    const dict = { taskValue: task, checkValue: checked };
+    tasks.push(dict);
     setTask("");
   };
 
@@ -121,7 +122,10 @@ const Home = () => {
             <List>
               {tasks.map((ele, index) => (
                 <ListItem key={index}>
-                  <Subtask element={ele} />
+                  <Subtask
+                    element={ele.taskValue}
+                    needSubtask={ele.checkValue}
+                  />
                 </ListItem>
               ))}
             </List>
