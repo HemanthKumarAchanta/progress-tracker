@@ -8,6 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
+  },
+  subTask: {
+    marginLeft: 30,
   },
 
   input2: {
@@ -110,6 +114,7 @@ const Subtask = (props) => {
               size="small"
               className={classes.input2}
               onChange={handleSubTask}
+              autoComplete="off"
             />
 
             <IconButton
@@ -121,9 +126,24 @@ const Subtask = (props) => {
             </IconButton>
 
             <ExpansionPanelDetails>
-              <Typography color="textSecondary">
+              <Typography color="textSecondary" className={classes.subTask}>
                 {subTasks.map((ele, index) => (
-                  <li key={index}>{ele}</li>
+                  <>
+                    {/* <li key={index}>{ele}</li> */}
+
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={handleCheck}
+                          inputProps={{ "aria-label": "primary checkbox" }}
+                          key={index}
+                          size="small"
+                        />
+                      }
+                      label={ele}
+                    />
+                  </>
                 ))}
               </Typography>
             </ExpansionPanelDetails>

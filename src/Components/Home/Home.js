@@ -10,7 +10,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Container from "@material-ui/core/Container";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 
@@ -70,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 30,
     marginLeft: 10,
   },
+  progressIndicator: {
+    marginTop: 30,
+    // marginLeft: 10,
+  },
 }));
 
 const Home = () => {
@@ -77,7 +81,8 @@ const Home = () => {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [checked, setChecked] = React.useState(false);
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [openAddSnackbar, setOpenAddSnackbar] = React.useState(false);
+  const [openDelSnackbar, setOpenDelSnackbar] = React.useState(false);
 
   const handleTask = (e) => {
     setTask(e.target.value);
@@ -86,15 +91,34 @@ const Home = () => {
   const handleAdd = () => {
     const dict = { taskValue: task, checkValue: checked };
     tasks.push(dict);
-    setOpenSnackbar(true);
+    setOpenDelSnackbar(false);
+    setOpenAddSnackbar(true);
     setTask("");
   };
-  const handleCloseSnackbar = (event, reason) => {
+
+  const handleDel = (id) => {
+    // let updatedTasks = tasks.splice(id, 1);
+    let updatedTasks = [...tasks];
+    updatedTasks.splice(id, 1);
+    setTasks(updatedTasks);
+    setOpenAddSnackbar(false);
+    setOpenDelSnackbar(true);
+    console.log(id);
+  };
+  const handleCloseAddSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    setOpenSnackbar(false);
+    setOpenAddSnackbar(false);
+  };
+
+  const handleCloseDelSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenDelSnackbar(false);
   };
 
   const handleCheck = (e) => {
@@ -117,6 +141,7 @@ const Home = () => {
               size="small"
               className={classes.input}
               onChange={handleTask}
+              autoComplete="off"
             />
             <Button
               variant="contained"
@@ -147,18 +172,34 @@ const Home = () => {
                       element={ele.taskValue}
                       needSubtask={ele.checkValue}
                     />
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleDel(index)}
+                    >
+                      <DeleteIcon fontSize="large" />
+                    </IconButton>
                   </ListItem>
                 ))}
               </List>
             </div>
           </Paper>
           <Snackbar
-            open={openSnackbar}
+            open={openAddSnackbar}
             autoHideDuration={6000}
-            onClose={handleCloseSnackbar}
+            onClose={handleCloseAddSnackbar}
           >
-            <Alert onClose={handleCloseSnackbar} severity="success">
+            <Alert onClose={handleCloseAddSnackbar} severity="success">
               A New Task is Added!
+            </Alert>
+          </Snackbar>
+
+          <Snackbar
+            open={openDelSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseDelSnackbar}
+          >
+            <Alert onClose={handleCloseDelSnackbar} severity="error">
+              A Task is Deleted!
             </Alert>
           </Snackbar>
         </Container>
