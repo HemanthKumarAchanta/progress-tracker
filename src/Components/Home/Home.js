@@ -141,6 +141,7 @@ const Home = () => {
               size="small"
               className={classes.input}
               onChange={handleTask}
+              value={task}
               autoComplete="off"
             />
             <Button

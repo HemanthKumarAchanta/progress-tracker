@@ -28,6 +28,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import AddCircleSharpIcon from "@material-ui/icons/AddCircleSharp";
 import Paper from "@material-ui/core/Paper";
+import Subtask2 from "./Subtask2";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,6 +114,7 @@ const Subtask = (props) => {
               label="Enter the Sub Task"
               size="small"
               className={classes.input2}
+              value={subTask}
               onChange={handleSubTask}
               autoComplete="off"
             />
@@ -129,20 +131,7 @@ const Subtask = (props) => {
               <Typography color="textSecondary" className={classes.subTask}>
                 {subTasks.map((ele, index) => (
                   <>
-                    {/* <li key={index}>{ele}</li> */}
-
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checked}
-                          onChange={handleCheck}
-                          inputProps={{ "aria-label": "primary checkbox" }}
-                          key={index}
-                          size="small"
-                        />
-                      }
-                      label={ele}
-                    />
+                    <Subtask2 key={index} subElement={ele} />
                   </>
                 ))}
               </Typography>
