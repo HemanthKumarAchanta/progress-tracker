@@ -9,6 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Container from "@material-ui/core/Container";
 
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -49,10 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
     background: "#EBFF57",
     margin: theme.spacing(2),
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
   },
   input: {
     width: 312,
@@ -112,57 +109,59 @@ const Home = () => {
   return (
     <div className="home">
       <div className={classes.root}>
-        <Paper className={classes.paper} elevation={5}>
-          <TextField
-            id="standard-basic"
-            label="Enter the Task"
-            size="small"
-            className={classes.input}
-            onChange={handleTask}
-          />
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.add}
-            onClick={handleAdd}
+        <Container maxWidth="sm">
+          <Paper className={classes.paper} elevation={5}>
+            <TextField
+              id="standard-basic"
+              label="Enter the Task"
+              size="small"
+              className={classes.input}
+              onChange={handleTask}
+            />
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.add}
+              onClick={handleAdd}
+            >
+              ADD
+            </Button>
+
+            <FormControlLabel
+              className={classes.check}
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleCheck}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                />
+              }
+              label="SubTasks"
+            />
+
+            <div>
+              <List>
+                {tasks.map((ele, index) => (
+                  <ListItem key={index}>
+                    <Subtask
+                      element={ele.taskValue}
+                      needSubtask={ele.checkValue}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          </Paper>
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
           >
-            ADD
-          </Button>
-
-          <FormControlLabel
-            className={classes.check}
-            control={
-              <Checkbox
-                checked={checked}
-                onChange={handleCheck}
-                inputProps={{ "aria-label": "primary checkbox" }}
-              />
-            }
-            label="SubTasks"
-          />
-
-          <div>
-            <List>
-              {tasks.map((ele, index) => (
-                <ListItem key={index}>
-                  <Subtask
-                    element={ele.taskValue}
-                    needSubtask={ele.checkValue}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Paper>
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-        >
-          <Alert onClose={handleCloseSnackbar} severity="success">
-            A New Task is Added!
-          </Alert>
-        </Snackbar>
+            <Alert onClose={handleCloseSnackbar} severity="success">
+              A New Task is Added!
+            </Alert>
+          </Snackbar>
+        </Container>
       </div>
     </div>
   );
