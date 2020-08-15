@@ -83,6 +83,7 @@ const Home = () => {
   const [checked, setChecked] = React.useState(false);
   const [openAddSnackbar, setOpenAddSnackbar] = React.useState(false);
   const [openDelSnackbar, setOpenDelSnackbar] = React.useState(false);
+  const [update, setupdate] = React.useState(false);
 
   const handleTask = (e) => {
     setTask(e.target.value);
@@ -94,6 +95,7 @@ const Home = () => {
     setOpenDelSnackbar(false);
     setOpenAddSnackbar(true);
     setTask("");
+    setupdate(!update);
   };
 
   const handleDel = (id) => {
