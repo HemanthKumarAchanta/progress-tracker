@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -79,7 +79,9 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
   const [checked, setChecked] = React.useState(false);
   const [openAddSnackbar, setOpenAddSnackbar] = React.useState(false);
   const [openDelSnackbar, setOpenDelSnackbar] = React.useState(false);
@@ -91,21 +93,28 @@ const Home = () => {
 
   const handleAdd = () => {
     const dict = { taskValue: task, checkValue: checked };
-    tasks.push(dict);
+    let updatedTasks = [...tasks];
+    updatedTasks.push(dict);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    setTasks(updatedTasks);
+
     setOpenDelSnackbar(false);
     setOpenAddSnackbar(true);
     setTask("");
-    setupdate(!update);
+    setupdate(!update); // To render a task even for blank input because DOM is not rendering without state change
   };
 
   const handleDel = (id) => {
     // let updatedTasks = tasks.splice(id, 1);
     let updatedTasks = [...tasks];
     updatedTasks.splice(id, 1);
+
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+
     setTasks(updatedTasks);
+
     setOpenAddSnackbar(false);
     setOpenDelSnackbar(true);
-    console.log(id);
   };
   const handleCloseAddSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -132,8 +141,11 @@ const Home = () => {
     console.log(e.target.value);
   };
 
+  // localStorage.setItem("tasks", JSON.stringify(tasks));
+
   return (
     <div className="home">
+      {console.log(JSON.parse(localStorage.getItem("tasks")))}
       <div className={classes.root}>
         <Container maxWidth="sm">
           <Paper className={classes.paper} elevation={5}>
