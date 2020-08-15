@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme) => ({
 const Subtask = (props) => {
   const classes = useStyles();
   const [subTask, setSubTask] = useState("");
-  const [subTasks, setSubTasks] = useState([]);
+  const [subTasks, setSubTasks] = useState(
+    JSON.parse(localStorage.getItem("subTasks")) || []
+  );
   const [checked, setChecked] = React.useState(false);
 
   const ele = props.element;
@@ -78,7 +80,11 @@ const Subtask = (props) => {
   };
 
   const handleSubAdd = () => {
-    subTasks.push(subTask);
+    let updatedSubTasks = [...subTasks];
+    updatedSubTasks.push(subTask);
+    localStorage.setItem("subTasks", JSON.stringify(updatedSubTasks));
+    setSubTasks(updatedSubTasks);
+
     setSubTask("");
   };
   const handleCheck = (e) => {
